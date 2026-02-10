@@ -1,0 +1,14 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.log
+*.db
+
+# Node / frontend (pentru mai târziu)
+node_modules/
+autoparts_data/
+# Secrets
+appsettings.Development.json
+.env

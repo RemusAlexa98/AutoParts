@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16
+    container_name: autoparts_db
+    environment:
+      POSTGRES_USER: autoparts
+      POSTGRES_PASSWORD: autoparts123
+      POSTGRES_DB: autopartsdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: autoparts_api
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=autopartsdb;Username=autoparts;Password=autoparts123
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5013:5000"
+    restart: unless-stopped
+    volumes:
+      - dpkeys:/root/.aspnet/DataProtection-Keys
+
+volumes:
+  pgdata:
+  dpkeys:

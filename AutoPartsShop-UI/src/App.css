@@ -1,0 +1,121 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login-page {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-title {
+  font-weight: 600;
+}
+
+/* =========================
+   GLOBAL APP LOOK & FEEL
+========================= */
+
+body {
+  background: #f6f7fb;
+}
+
+.app-container {
+  padding-top: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.page-title {
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* nicer cards */
+.card {
+  border-radius: 14px;
+}
+
+.card.shadow-sm,
+.card.shadow-lg {
+  border: 0;
+}
+
+/* =========================
+   PRODUCTS PAGE
+========================= */
+
+.product-card .card-title {
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.product-meta {
+  font-size: 0.95rem;
+}
+
+/* =========================
+   APP LAYOUT
+========================= */
+
+.app-layout {
+  display: flex;
+  justify-content: center;
+  padding-top: 24px; /* spacing nice for normal pages */
+}
+
+.app-container {
+  width: 100%;
+  max-width: 1320px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
