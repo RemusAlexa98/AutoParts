@@ -31,7 +31,7 @@ function Products() {
 
   try {
     await addToCart(accessToken, setAccessToken, productId, 1);
-    setInfo("Added to cart ✅");
+    setInfo("Added to cart");
     setTimeout(() => setInfo(""), 1500);
   } catch (err) {
     setError(err.message);
@@ -50,7 +50,13 @@ function Products() {
   return (
     <div>
       <h2 className="page-title mb-4">Products</h2>
-      {info && <div className="alert alert-success">{info}</div>}
+      <div className="ui-message-slot">
+        {info ? (
+          <div className="alert alert-success py-2 mb-0">
+            {info}
+          </div>
+        ) : null}
+      </div>
       <div className="row">
         {products.map((product) => (
           <div

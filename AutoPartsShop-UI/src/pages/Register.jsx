@@ -1,28 +1,26 @@
 import { useState } from "react";
-import { login } from "../api/apiClient";
-import { useAuth } from "../context/AuthContext";
+import { registerApi } from "../api/apiClient";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
-  const { setAccessToken } = useAuth();
-  const navigate = useNavigate();
-
+function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [info, setInfo] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setInfo("");
     setError("");
 
     try {
-      const data = await login(email, password);
-      setAccessToken(data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      navigate("/products");
+      await registerApi(email, password);
+      setInfo("Account created, you can login now.");
+      setTimeout(() => navigate("/login"), 800);
     } catch (err) {
-      setError(err.message || "Login failed");
+      setError(err.message || "Register failed");
     }
   }
 
@@ -30,8 +28,9 @@ function Login() {
     <div className="auth-page">
       <div className="auth-card card shadow-sm">
         <div className="auth-card-body card-body">
-          <h2 className="auth-title">Login</h2>
+          <h2 className="auth-title">Register</h2>
 
+          {info && <div className="alert alert-success">{info}</div>}
           {error && <div className="alert alert-danger">{error}</div>}
 
           <div className="auth-form">
@@ -41,35 +40,34 @@ function Login() {
                 <input className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
 
-              <div className="mb-3">
-                <label className="form-label">Password</label>
+                <div className="mb-3">
+                <label className="form-label">New password</label>
 
                 <div className="input-group">
-                  <input
+                    <input
                     type={showPassword ? "text" : "password"}
                     className="form-control"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <button
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                    <button
                     type="button"
                     className="btn btn-outline-secondary password-toggle-btn"
                     onClick={() => setShowPassword((v) => !v)}
-                  >
+                    >
                     {showPassword ? "Hide" : "Show"}
-                  </button>
+                    </button>
                 </div>
-              </div>
+                </div>
 
               <button className="btn btn-primary w-100" type="submit">
-                Login
+                Create account
               </button>
             </form>
           </div>
 
-          <div className="auth-footer">
-            <Link to="/register">Register</Link>
-            <Link to="/forgot-password">Forgot password?</Link>
+          <div className="auth-footer center">
+            <Link to="/login">Back to login</Link>
           </div>
         </div>
       </div>
@@ -77,4 +75,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

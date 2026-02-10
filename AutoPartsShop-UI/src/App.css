@@ -42,27 +42,6 @@
 }
 
 /* =========================
-   LOGIN PAGE
-========================= */
-
-.login-page {
-  min-height: calc(100vh - 56px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 420px;
-}
-
-.login-title {
-  font-weight: 600;
-}
-
-/* =========================
    GLOBAL APP LOOK & FEEL
 ========================= */
 
@@ -118,4 +97,103 @@ body {
   max-width: 1320px;
   padding-left: 16px;
   padding-right: 16px;
+}
+
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* =========================
+   AUTH PAGES (pixel-consistent)
+   ========================= */
+
+.auth-page {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 580px;
+  min-height: 520px;
+  border-radius: 12px;
+}
+
+.auth-card-body {
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* title zone */
+.auth-title {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+/* form zone (stays centered) */
+.auth-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-form form {
+  margin: 0;
+}
+
+/* footer zone (same height on every page) */
+.auth-footer {
+  min-height: 44px; /* keeps the same footer height everywhere */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-top: 18px;
+}
+
+.auth-footer.center {
+  justify-content: center;
+}
+
+/* reserved space so layout doesn't jump */
+.copy-slot {
+  height: 18px;
+}
+
+
+
+.ui-message-slot {
+  min-height: 52px; /* rezervă spațiu pentru alert */
+  margin-bottom: 12px;
+}
+
+.input-group .password-toggle-btn {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+  flex: 0 0 70px;   /* nu crește, nu se micșorează */
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 0;
+  padding-right: 0;
 }

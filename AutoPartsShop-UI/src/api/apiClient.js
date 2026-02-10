@@ -179,3 +179,179 @@ export async function removeCartItem(accessToken, onTokenRefreshed, cartItemId) 
     throw new Error("Failed to remove cart item");
   }
 }
+
+export async function placeOrder(accessToken, onTokenRefreshed) {
+  const url = `${API_URL}/api/orders`;
+
+  const response = await fetchWithAuth(
+    url,
+    { method: "POST" },
+    accessToken,
+    onTokenRefreshed
+  );
+
+  if (!response.ok) {
+    let msg = "Failed to place order";
+    try {
+      const err = await response.json();
+      msg = err.detail || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+
+  return response.json(); // if backend returns something (optional)
+}
+
+export async function getMyOrders(accessToken, onTokenRefreshed) {
+  const url = `${API_URL}/api/orders`;
+
+  const response = await fetchWithAuth(url, {}, accessToken, onTokenRefreshed);
+
+  if (!response.ok) {
+    throw new Error("Failed to load orders");
+  }
+
+  return response.json();
+}
+
+export async function cancelOrder(accessToken, onTokenRefreshed, orderId) {
+  const url = `${API_URL}/api/orders/${orderId}/cancel`;
+
+  const response = await fetchWithAuth(
+    url,
+    { method: "POST" },
+    accessToken,
+    onTokenRefreshed
+  );
+
+  if (!response.ok) {
+    let msg = "Failed to cancel order";
+    try {
+      const err = await response.json();
+      msg = err.detail || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+
+  return response.json(); // optional
+}
+
+export async function registerApi(email, password) {
+  const response = await fetch(`${API_URL}/api/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    let msg = "Register failed";
+    try {
+      const err = await response.json();
+      msg = err.detail || err.message || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+
+  return response.json(); // dacă backend returnează ceva
+}
+
+export async function forgotPasswordApi(email) {
+  const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    let msg = "Forgot password failed";
+    try {
+      const err = await response.json();
+      msg = err.detail || err.message || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+
+  // ✅ backend returns { message, resetToken, expiresAt } in DEV
+  return response.json();
+}
+
+export async function resetPasswordApi(token, newPassword) {
+  const response = await fetch(`${API_URL}/api/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  });
+
+  if (!response.ok) {
+    let msg = "Reset password failed";
+    try {
+      const err = await response.json();
+      msg = err.detail || err.message || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+}
+
+export async function getMe(accessToken, onTokenRefreshed) {
+  const url = `${API_URL}/api/auth/me`;
+
+  const response = await fetchWithAuth(url, {}, accessToken, onTokenRefreshed);
+
+  if (!response.ok) {
+    throw new Error("Failed to load account details");
+  }
+
+  return response.json(); // { Email, userId, role }
+}
+
+export async function deactivateSelf(accessToken, onTokenRefreshed) {
+  const url = `${API_URL}/api/auth/deactivate`;
+  const response = await fetchWithAuth(
+    url,
+    { method: "POST" },
+    accessToken,
+    onTokenRefreshed
+  );
+
+  if (!response.ok) {
+    let msg = "Deactivate failed";
+    try {
+      const err = await response.json();
+      msg = err.detail || err.message || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+
+  try {
+    const data = await response.json(); // { message }
+    return data.message || "Account deactivated.";
+  } catch {
+    return "Account deactivated.";
+  }
+}
+
+export async function deleteSelf(accessToken, onTokenRefreshed) {
+  const url = `${API_URL}/api/auth/delete`;
+  const response = await fetchWithAuth(
+    url,
+    { method: "DELETE" },
+    accessToken,
+    onTokenRefreshed
+  );
+
+  if (!response.ok) {
+    let msg = "Delete account failed";
+    try {
+      const err = await response.json();
+      msg = err.detail || err.message || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+
+  try {
+    const data = await response.json(); // { message }
+    return data.message || "Account deleted.";
+  } catch {
+    return "Account deleted.";
+  }
+}

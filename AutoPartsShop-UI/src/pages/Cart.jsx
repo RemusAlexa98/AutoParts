@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { getCart, updateCartItem, removeCartItem } from "../api/apiClient";
+import { getCart, updateCartItem, removeCartItem, placeOrder } from "../api/apiClient";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const { accessToken, setAccessToken } = useAuth();
-
+  const navigate = useNavigate();
   const [cart, setCart] = useState({ items: [], total: 0, totalItems: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -70,6 +71,24 @@ function Cart() {
       setError(err.message);
     }
   }
+
+  async function handlePlaceOrder() {
+  setError("");
+  setInfo("");
+
+  try {
+    await placeOrder(accessToken, setAccessToken);
+    setInfo("Order placed ✅");
+
+    await loadCart(); // cart should become empty after checkout
+
+    setTimeout(() => {
+      navigate("/orders");
+    }, 600);
+  } catch (err) {
+    setError(err.message);
+  }
+}
 
   if (loading) return <p>Loading cart...</p>;
 
@@ -145,16 +164,23 @@ function Cart() {
 
           <div className="d-flex justify-content-end">
             <div className="card shadow-sm" style={{ maxWidth: 360, width: "100%" }}>
-              <div className="card-body">
-                <div className="d-flex justify-content-between">
+              <div className="card-body cart-summary">
+                <div className="cart-summary-row">
                   <span className="text-muted">Total items</span>
                   <span className="fw-semibold">{cart.totalItems}</span>
                 </div>
 
-                <div className="d-flex justify-content-between mt-2">
+                <div className="cart-summary-row">
                   <span className="text-muted">Total</span>
                   <span className="fw-bold">{cart.total} RON</span>
                 </div>
+
+                <button
+                  className="btn btn-success w-100 mt-2"
+                  onClick={handlePlaceOrder}
+                >
+                  Place order
+                </button>
               </div>
             </div>
           </div>
