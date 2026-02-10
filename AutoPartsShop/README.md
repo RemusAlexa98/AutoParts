@@ -38,6 +38,4 @@ Password: userA11.
 • Backend is stable & production-ready ✅ • Designed for real-world usage • Next steps: – React + Bootstrap frontend ⚛️🎨 – Auth integration with refresh token rotation – Admin dashboard
 📝 NOTES
 This project is intended as: • A professional backend portfolio project • A solid foundation for a real production application • An example of modern authentication and API design in ASP.NET Core
-✅ După ce ai pus textul în README.md, rulează:
-git add README.md git commit -m "Finalize professional README with emojis" git push
 
